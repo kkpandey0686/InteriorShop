@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Search | {% endblock %}
+
+{% block content %}
+    <form method="post" action=".">
+        {% csrf_token %}
+
+        <div class="field has-addons">
+            <div class="control">
+                <input type="number" name="max_distance" value="20" class="input" min="1">
+            </div>
+
+            <div class="control">
+                <button class="button is-dark" name="distance_filter">Filter Distance</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="columns is-multiline mb-6">
+        <div class="column is-12 has-text-centered mt-6 mb-6">
+            <h2 class="is-size-3">Search</h2>
+            <h3>Search term: "{{ query }}"</h3>
+        </div>
+
+        <div>
+        
+        </div>
+        {% for product, distance in distance_list %}
+            {% if distance <= max_distance %}
+                <div class="column is-3 product-list-item">
+                    <div class="box">
+                        <figure class="image is-4by3 mb-4">
+                            <img src="{{ product.get_thumbnail }}">
+                        </figure>
+
+                        <h2 class="subtitle">{{ product.title }}</h2>
+
+                        <h3 class="price is-size-6 mb-5">₹{{ product.price }}</h3>
+
+                        <hr>
+                        <h3 class="is-size-6 mb-2"> Distance: {{ distance }} Km</h3>
+                        <a href="{% url 'product' product.category.slug product.slug %}" class="button is-dark is-family-monospace">View</a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

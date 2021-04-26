@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
+{% block title %}Verify | {% endblock %}
+
+{% block content %}
+    <h1 class="title">Verify</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="notification {% if message.tags in 'success' %} is-success{% else %} is-danger {% endif %} is-toast">{{ message }}</div>
+        {% endfor %}
+    {% endif %} 
+
+    <form method="post" action=".">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-dark ">Verify</button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

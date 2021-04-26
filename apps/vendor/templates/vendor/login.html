@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
+{% block title %}Log in | {% endblock %}
+
+{% block content %}
+    <h1 class="title">Log in</h1>
+
+    <form method="post" action=".">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-dark  ">Log in</a></button>
+            </div>
+        </div>
+    </form>
+
+    <div class="control mt-2"> Don't have an account?
+
+    <a href="{% url 'signup' %}" class="btn btn-link"> Sign Up</a>
+
+    </div>
+    <hr>
+    <a href="{% provider_login_url "google" %}" class="btn btn-dark is-size-5">Sign in with Google</a>
+
+{% endblock %}

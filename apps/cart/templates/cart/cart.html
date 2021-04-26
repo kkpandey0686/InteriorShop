@@ -1,0 +1,76 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Cart | {% endblock %}
+
+{% block content %}
+    <h1 class="title">Cart</h1>
+
+    {% comment %} {% if cart %} {% endcomment %}
+        <div class="box mb-6">
+            <div class="table">
+                <table class="table is-fullwidth is-striped">
+                    <thead>
+                        <th></th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th></th>
+                    </thead>
+
+                    <tbody>
+                        {% for item in cart %}
+                            <tr>
+                                <td>
+                                    <figure class="image is-64x64">
+                                        <img src="{{ item.product.get_thumbnail }}">
+                                    </figure>
+                                </td>
+                                <td>
+                                    <a class="is-size-5"href="{% url 'product' item.product.category.slug item.product.slug %}">{{ item.product.title }}</a>
+                                </td>
+                                <td>
+                                    <span class="is-size-5">{{ item.quantity }}</span>  
+
+                                    <a class="btn btn-sm btn-dark" href="?change_quantity={{ item.id }}&quantity=-1">-</a>
+                                    <a class="btn btn-sm btn-dark " href="?change_quantity={{ item.id }}&quantity=1">+</a>
+                                </td>
+                                <td class="is-size-5">₹{{ item.total_price }}</td>
+                                <td><a href="?remove_from_cart={{ item.id }}" class="delete">Remove</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td class="is-size-5"><strong>Total cost</strong></td>
+                            <td class="is-size-5"><strong>{{ cart|length}}</strong></td>
+                            <td class="is-size-5" colspan="2"><strong>₹{{ cart.get_total_cost }}</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="notification {% if message.tags in 'success' %} is-success {% else %} is-danger {% endif %} is-toast">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" action=".">
+                    {% csrf_token %}
+
+                    {% comment %} {{ form.as_p }} {% endcomment %}
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-dark  ">Checkout</button>
+                    </div>
+                </div>
+
+            </form>
+
+{% endblock %}
+

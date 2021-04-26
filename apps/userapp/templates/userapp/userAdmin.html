@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Your Orders | {% endblock %}
+
+{% block content %}
+
+    <div class="box">
+        <h2 class="is-size-3 mb-4">My orders</h2>
+    
+        {% if data %}
+            {% for order, items in data %}
+            
+                <div class="{% if order.fully_paid %}has-background-success-light{% else %}has-background-info-light{% endif %} mb-2 p-4">
+                    <div class="columns is-multiline">
+                        <div class="column is-6">
+                            <h3 class="is-size-4">#{{order.id }} - {{order.first_name }} {{ order.last_name }}  <span class=" tag is-size-5 is-dark">{% if order.status is 0 %}Order Placed{% elif order.status is 1 %}Order Dispacted{% elif order.status is 2 %}In Transit{% else %} Delivered {%endif%}</span></h3>
+                        </div>
+    
+                        <div class="column is-12">
+                            <b>Name:</b> {{ order.first_name }} {{ order.last_name }}<br>
+                            <b>Address:</b> {{ order.address }}<br>
+                            <b>Zip and place:</b> {{ order.zipcode }} {{ order.place }}<br>
+                            <b>E-mail:</b> {{ order.email }}<br>
+                            <b>Phone:</b> {{order.phone }}
+    
+                            <table class="table is-fullwidth mt-4">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+    
+                                <tbody>
+                                    {% for h, i, j, k in items %}
+                                        {% comment %} {% if item.vendor == request.user.vendor %} {% endcomment %}
+                                            <tr>
+                                                {% comment %} <td>{{ item.product.title }}</td> {% endcomment %}
+                                                <td>{{ h }}</td>
+                                                <td>₹{{ i }}</td>
+                                                <td>{{ j }}</td>
+                                                <td>₹{{ k }}</td>
+                                            </tr>
+                                        {% comment %} {% endif %} {% endcomment %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

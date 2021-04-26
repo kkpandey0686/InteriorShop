@@ -1,0 +1,111 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ product.title }} | {% endblock %}
+
+{% block content %}
+    {% if product.image %}
+        <figure class="image is-4by3 mb-6">
+            <img src="{{ product.image.url }}">
+        </figure>
+    {% endif %}
+
+    <h1 class="title">{{ product.title }}, ₹{{ product.price }}</h1>
+
+    <p class="mb-6"><span class="tag is-dark">{{ product.vendor.name }}</span></p>
+
+    <p class="is-size-4">Stock: {{ quantity }}</p>
+
+    <p class="is-size-4">{{ product.description }}</p>
+
+    <hr>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="notification {% if message.tags in 'success' %} is-success{% else %} is-danger {% endif %} is-toast">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" action=".">
+        {% csrf_token %}
+
+        <div class="field has-addons">
+            <div class="control">
+                <input type="number" name="quantity" value="1" min="1" class="input">
+            </div>
+
+            <div class="control">
+                <button class="btn btn-dark bt-lg " name="add_to_cart">Add to Cart</button>
+            </div>
+        </div>
+    </form>
+
+  
+   
+    
+    {% if similar_products %}
+        <hr>
+
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h2 class="subtitle">Similar products</h2>
+            </div>
+
+            {% for product in similar_products %}
+                {% include 'product/parts/list_item.html' %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    {% if request.user.is_authenticated %}
+    {% if request.user.customUser.role == "CUS" %}
+        <form method="post" action="." >
+            {% csrf_token %}
+
+            <h1 class="is size-2"> Review Product</h1>
+            <div class="is-size-3"><span class="is-size-6" >{{ review_form.stars }}</span> ★</div>
+            <div>{{ review_form.content }}</div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="btn btn-dark  mt-3" name="write_review">Post Review</a>
+                </div>
+            </div>
+        </form>
+    {%endif%}
+    {%endif%}
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <h1 class="is size-2"> Reviews </h1>
+    <br>
+    <br>
+
+    {% if review_list %}
+        
+        {% for review in review_list %}
+            {% comment %} <p class="mb-6"></p> {% endcomment %}
+
+            <h3 class="is-capitalised is-size-4">★{{review.stars}} <span class="tag is-dark ml-3 is-size-6">{{review.user }}</span>  </h3>
+            <h3 class="is-capitalised is-size-4">{{review.content}}</h3>
+            <div class="border-bottom "></div>
+            <br>
+        {% endfor %}
+ 
+    {% endif %}
+
+{% endblock %}

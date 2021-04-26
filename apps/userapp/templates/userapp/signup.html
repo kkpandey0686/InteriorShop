@@ -1,0 +1,57 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Create an User account | {% endblock %}
+
+{% block content %}
+    <h1 class="title">Create an User account</h1>
+    {% csrf_token %}
+    {% crispy form form.helper %}
+{% comment %} 
+    <div class="is-size-5">
+        {{form.username}}
+        {{form.role}}
+    </div>
+    <div class="is-size-5 pb-1 pt-1">
+        {{form.password}}
+        {{form.password_confirmation}}
+    </div>
+    <div class="is-size-5 pb-1 pt-1">
+        {{form.firstname}}
+        {{form.lastname}}
+    </div>
+    <div class="is-size-5 pb-1 pt-1">
+        {{form.phone}}
+        {{form.email}}
+    </div>
+    <div class="is-size-5 pb-1 pt-1">
+        {{form.latitude}}
+        {{form.longitude}}
+    </div>
+    <div class="is-size-5 pb-1 pt-1">
+        {{form.zipcode}}
+        {{form.place}}
+    </div> {% endcomment %}
+    
+    {% comment %} <form method="post" action=".">
+        {% csrf_token %}
+
+        {{ form.as_table |crispy}}
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-dark  ">Sign up</button>
+            </div>
+        </div>
+    </form> {% endcomment %}
+
+    <hr>
+
+    <div class="control mt-2">Already have an account?
+    <a href="{% url 'login' %}" class="btn btn-link">Log in</a>
+    </div>
+
+    <hr>
+
+{% endblock %}

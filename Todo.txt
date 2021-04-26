@@ -1,0 +1,6 @@
+- Check if product is in stock or out of stock
+- Location distance filter for each shop
+- "Modification" user can only buy that many items which are in the stock
+- After the product has been delivered buyer should receive an E-mail for feedback, in case if the order contained multiple products take feedback for each
+- Delivery status of product to be updated periodically
+- Module 4
